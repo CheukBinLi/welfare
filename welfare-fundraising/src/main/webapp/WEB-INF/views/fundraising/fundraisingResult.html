@@ -1,0 +1,87 @@
+<#include "/include/header.html"/>
+<style>
+body {
+	background-color: #f7f3fa;
+}
+</style>
+
+<div class="container new-container sunshine-share" style="position: static; -webkit-transform: translateX(0) !important">
+	<div class="warp">
+		<form id="formtable" method="POST">
+			<input type="hidden" value="${fundraisingLogId!0}" name="id">
+			<div class="heart">
+				<img src="${request.contextPath}/${resource}/image/icon_3.gif" alt="">
+			</div>
+			<div class="tip">
+				<p>感谢捐助</p>
+
+				<p>阳光雨露公益助学促进会</p>
+			</div>
+			<div class="text">
+				<textarea placeholder="爱心留言 (选填)" name="blessingMessage"></textarea>
+			</div>
+			<div class="share">
+				<a href="javascript:;" class=" btn-orange btn" id="shareBtn">邀朋友献爱心</a> <a href="javascript:;" class="btn btn-orange" id="submitBtn">提交留言</a>
+			</div>
+		</form>
+	</div>
+</div>
+
+<!--container end -->
+<div class="cover sunshineshare">
+	<div class="share-right"></div>
+	<p>请点击右上角的图标</p>
+
+	<p>选择【发送给朋友】或【分享到朋友圈】</p>
+</div>
+<script>
+	$(function() {
+		$(".cover").click(function() {
+			$(".cover").css("display", "none");
+		})
+
+		$('#shareBtn').click(function() {
+			$(".cover").css("display", "block");
+		});
+
+		weixinShareData = {
+			"imgUrl" : '${fundraising.themeUrl!"单"}',
+			"link" : '${fundraising.themeUrl!"身旺"}',
+			"desc" : '${fundraising.shareContent!"单身旺"}',
+			"title" : '${fundraising.title!"单身旺"}'
+		};
+
+		$('#submitBtn').click(function() {
+			var content = $('textarea[name="blessingMessage"]').val();
+			if (content.length < 1) {
+				new Toast({
+					context : $('body'),
+					top : '20%',
+					left : '20%',
+					message : "请输入您的祝福语"
+				}).show();
+				$('textarea[name="blessingMessage"]').focus();
+				return false;
+			}
+			$.ajax({
+				url : "${request.contextPath}/fundraisingLog/put",
+				data : $('#formtable').serialize(),
+				type : 'POST',
+				success : function(data) {
+					if (msgModel.isSuccess(data)) {
+						new Toast({
+							context : $('body'),
+							top : '20%',
+							left : '35%',
+							message : "谢谢参与"
+						}).show();
+						$('#submitBtn').hide();
+						$('.btn-orange').css('width', '92%');
+						$('textarea[name="blessingMessage"]').attr("readonly", "readonly");
+					}
+				}
+			})
+		});
+	})
+</script>
+<#include "/include/footer.html"/><#include "/include/jsSdk.html"/>

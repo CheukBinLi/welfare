@@ -1,0 +1,47 @@
+<#include "/include/header2.html"/>
+<style>
+table td {
+	word-break: keep-all;
+}
+</style>
+<!-- private int id;
+	private String title; // 筹款标题
+	@Column(columnDefinition = "text", name = "CREATE_USER")
+	private int createUser;// 作者
+	@Column(columnDefinition = "text")
+	private String content;// 活动内容
+	@Column(name = "THEME_URL")
+	private String themeUrl;// 主题背景图
+	@Column(name = "TITLE_CONTENT")
+	private String shareTitle;// 分享标题
+	@Column(columnDefinition = "text", name = "SHARE_CONTENT")
+	private String shareContent;// 分享内容
+	private int maxAmount;
+	private int mixAmount;
+	private int defaultFirstAmount;
+	private int defaultSecondAmount;
+	@Column(name = "FROM_DATE")
+	private Date fromDate;// 开始日期
+	@Column(name = "THRU_DATE")
+	private Date thruDate;// 结束日期 -->
+
+<table class="table table-bordered table-hover">
+	<tr>
+		<th>标题</th>
+		<th>开始日期</th>
+		<th>截止日期</th>
+		<th>编辑</th>
+		<th>访问地址</th>
+	<tr><#if fundraisings??> <#list fundraisings as fundraising>
+	<tr>
+		<td>${fundraising.title!}</td>
+		<td>${fundraising.fromDate!}</td>
+		<td>${fundraising.thruDate!}</td>
+		<td><a href="${request.contextPath}/control/fundraising/edit/fundraisingEdit?id=${fundraising.id!}">编辑</a></td>
+		<td>${serverUrl!""}/weiXinAuth?state=${fundraising.id!0}</td>
+	</tr>
+	</#list> </#if>
+</table>
+
+
+<#include "/include/footer.html"/>

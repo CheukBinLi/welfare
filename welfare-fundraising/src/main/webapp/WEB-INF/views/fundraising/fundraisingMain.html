@@ -1,0 +1,240 @@
+<#include "/include/header.html"/> <#if statisticalAndLatestRecord??> <#assign statistical=statisticalAndLatestRecord.statistical?eval /> </#if>
+
+<div class="container new-container sunshine">
+	<div class="banner">
+		<img src="${request.contextPath}/${fundraising.themeUrl!}" alt="">
+	</div>
+	<div class="hearder">
+		<span>
+			<p>筹款金额(元)</p>
+			<p>${statistical.totalAmount!'-'}</p>
+		</span>
+		<span>
+			<p>爱心(份)</p>
+			<p>${statistical.counts!'-'}</p>
+		</span>
+		<span>
+			<p>截止日期</p>
+			<p>${(fundraising.thruDate?string("yyyy-MM-dd"))!"-"}</p>
+		</span>
+	</div>
+
+	<div>${fundraising.content!}</div>
+
+	<div class="section">
+		<!-- article -->
+		<div class="love-review">
+			<h2>爱心留言</h2>
+			<div class="review-list">
+				<ul id="reHeight" style="width: 100%;">
+					<li></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="payment-box">
+		<a href="javascript:;" class="btn-orange" id="confirm">立即捐款</a>
+	</div>
+</div>
+
+<div class="cover">
+	<div class="cost">
+		<span lang="payAmount" class="cur">${fundraising.defaultFirstAmount!50}元</span>
+		<span lang="payAmount">${fundraising.defaultSecondAmount!100}元</span>
+		<span>
+			<i>其他</i>
+			<input type="number" placeholder="0" name="payAmount" id="payAmount" value="${fundraising.defaultFirstAmount!50}">
+			元
+		</span>
+	</div>
+	<div class="blank"></div>
+</div>
+
+<script type="text/javascript">
+	//轮播格式化
+	function formatingShuffling(json) {
+		var loveReview = $('.love-review');
+		if (null == json || json.length < 1)
+			return loveReview.hide();
+		var html = "";
+		$("#reHeight").html(html);
+		var reviewlist = json;
+		for (var i = 0; i < reviewlist.length; i++) {
+			var blessingMessage = reviewlist[i].blessingMessage;
+			if (null==blessingMessage||undefined ==blessingMessage) {
+				blessingMessage = "";
+			}
+			html += "<li>" + 
+			"<div class=\"user-img\" style=\"background-image:url(" + reviewlist[i].photoUrl.replace(/\\/g,"/") + ");\"></div>" +
+			"<p><span class=\"left\">" + reviewlist[i].nickName + 
+			"，捐赠了<i>" + reviewlist[i].payAmount + "</i>元。</span>" + 
+			"<span class=\"right\">" + formatDateTime(reviewlist[i].completeDate) + 
+			"</span></p>" + "<p>" + blessingMessage + "</p>" + "</li>";
+		}
+		$("#reHeight").html(html);
+		loveReview.show();
+	}
+
+	//日期格式化
+	function formatDateTime(time) {
+		var date1 = new Date(time); //开始时间
+		var date2 = new Date(); //结束时间
+		var date3 = date2.getTime() - date1.getTime() //时间差的毫秒数
+		//计算出相差天数
+		var days = Math.floor(date3 / (24 * 3600 * 1000))
+		//计算出小时数
+		var leave1 = date3 % (24 * 3600 * 1000) //计算天数后剩余的毫秒数
+		var hours = Math.floor(leave1 / (3600 * 1000))
+		//计算相差分钟数
+		var leave2 = leave1 % (3600 * 1000) //计算小时数后剩余的毫秒数
+		var minutes = Math.floor(leave2 / (60 * 1000))
+		var msg;
+		if (days == 1) {
+			msg = "1天前";
+		} else if (days == 0 && hours == 0 && minutes < 15) {
+			msg = "刚刚";
+		} else if (days == 0 && hours == 0) {
+			msg = minutes + "分钟前";
+		} else if (days == 0 && hours <= 24) {
+			msg = hours + "小时前";
+		} else {
+			msg = date1.getFullYear() + "-" + (date1.getMonth() + 1) + "-" + date1.getDate();
+		}
+		return msg;
+	}
+
+	$('body').ready(function() {
+		var jsonstr = null;
+		<#if statisticalAndLatestRecord??>
+        	jsonstr=${statisticalAndLatestRecord.record};
+    	</#if>
+		formatingShuffling(jsonstr);
+	});
+
+	var orderId;
+	$(function() {
+		var isPay = false;
+		$(".payment-box .btn-orange").click(function() {
+			if (isPay) {
+				var payAmount = parseFloat($('#payAmount').val());
+				if (payAmount > 0)
+					createFundraisingProductOrder(payAmount);
+				return;
+			}
+			$(".cover").css("display", "block");
+			isPay = true;
+		})
+		$(".cover .blank").click(function() {
+			isPay = false;
+			$(".cover").css("display", "none");
+		})
+
+		$('span[lang="payAmount"]').click(function() {
+			$('#payAmount').val($(this).text().replace('元', ''));
+		});
+
+		$("#payAmount").keyup(function(key) {
+			var maxPayAmount = 3000;
+			obj = this;
+			obj.value = obj.value.replace(/^(0)([0-9])$/, "0.$2");
+			obj.value = obj.value.replace(/[^\d.]/g, "");
+			obj.value = obj.value.replace(/^\./g, "");
+			obj.value = obj.value.replace(/\.{2,}/g, ".");
+			obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+			obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+			if (parseFloat(obj.value) > maxPayAmount)
+				obj.value = maxPayAmount;
+		});
+
+		$("#payAmount").blur(function() {
+			this.value = parseFloat(this.value);
+		});
+
+		var fundraisingLogId;
+		function createFundraisingProductOrder(payAmount) {
+			//window.location.href="${request.contextPath}/fundraising/get/${fundraising.id}/fundraisingResult";
+			$.ajax({
+                url: '${request.contextPath}/control/fundraising/createFundraisingOrder',
+                type : 'POST',
+                data: {
+                	weiXinInfoId: '${(Session["OPEN_ID"])!}',
+                	fundraisingId: '${(fundraising.id)!}',
+                    payAmount: payAmount
+                },
+                success: function (data) {
+                	//console.log(d);
+                	if (msgModel.isSuccess(data)) {
+                		
+                		//测试回调
+						/* $.ajax({
+							url : "${request.contextPath}/unifiedOrder/weixinUnifiedOrderCallBack",
+							data : 'orderId='+msgModel.getData(data).unifiedOrderId,
+							type : 'POST',
+							success : function(d) {
+								alert(d);
+							}
+						}); */
+                		
+                		//window.location.href="${request.contextPath}/fundraising/get/${fundraising.id!0}/"+msgModel.getData(data).fundraisingLogId+"/fundraisingResult";
+                        
+                        //orderId = msgModel.getData(data).id;
+                        fundraisingLogId=msgModel.getData(data).fundraisingLogId;
+                        wx.chooseWXPay({
+                        	appid:'${weixinAppId!}',
+                        	timestamp: msgModel.getData(data).timeStamp, <#--// 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符-->
+                            nonceStr: msgModel.getData(data).nonceStr, <#--// 支付签名随机串，不长于 32 位-->
+                            package: msgModel.getData(data).package, <#--// 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）-->
+                            signType: msgModel.getData(data).signType, <#--// 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'-->
+                            paySign: msgModel.getData(data).paySign, <#--// 支付签名-->
+                            success: function (res) {
+                            	window.location.href="${request.contextPath}/control/fundraising/fundraisingResult?fundraising=${fundraising.id!0}&fundraisingLog="+fundraisingLogId;
+                            }
+                        });
+                    }
+                }
+            });
+		}
+
+		//滚动
+		setInterval(function() {
+			func();
+		}, 100);
+
+		var a = 0;
+
+		function func() {
+			var height = $("#reHeight").height();
+			if (height > a) {
+				$("#reHeight").css("top", -a++);
+			} else {
+				a = 0;
+			}
+		}
+		//轮播
+		setInterval(
+                function () {
+                    $.ajax({
+                        url: "${request.contextPath}/control/fundraising/getFundraisingLogLatestRecord",
+                        data: {
+                            fundraisingId: "${(fundraising.id)!}"
+                        },
+                        success: function (d) {
+                            formatingShuffling(JSON.parse(d.data));
+                        }
+                    });
+                }, 30000);
+		//
+		$(".cover .cost span").click(function() {
+			$(this).addClass('cur').siblings().removeClass('cur');
+		})
+	});
+
+	weixinShareData = {
+		"imgUrl" : '${fundraising.themeUrl!"单"}',
+		"link" : '${fundraising.themeUrl!"身旺"}',
+		"desc" : '${fundraising.shareContent!"单身旺"}',
+		"title" : '${fundraising.title!"单身旺"}'
+	};
+</script>
+
+<#include "/include/footer.html"/> <#include "/include/jsSdk.html"/>

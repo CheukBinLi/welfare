@@ -1,0 +1,43 @@
+.new-container{margin:0 auto;max-width:640px;}
+.new-container *{box-sizing:border-box;}
+.btn-orange{display:block;margin:11px 4% 10px 4%;width:92%;height:36px;border:1px solid #f9853e;border-radius:3px;background:#f9853e;color:#fff;text-align:center;font-size:14px;line-height:36px;}
+.btn{float:left;width: 42%;}
+.btn:nth-child(1){background-color:#55b527;border-color:#55b527;}
+.sunshine .banner{margin:0 auto;width:100%;height:170px;}
+.sunshine .banner img{width:100%;height:100%;}
+.sunshine .hearder{width:100%;height:65px;}
+.sunshine .hearder span{position:relative;float:left;padding-top:13px;width:33.33%;height:65px;background-color:#fff;}
+.sunshine .hearder span::after{position:absolute;top:16px;right:0;display:block;width:1px;height:30px;border-right:1px solid #ccc;content:'';}
+.sunshine .hearder span p{text-align:center;font-size:14px;line-height:20px;}
+.sunshine .hearder span:nth-child(3)::after{border:none;}
+.sunshine .hearder span p:nth-child(1){color:#9d9d9d;font-size:12px;}
+.sunshine .hearder span p:nth-child(2){color:#feac65;}
+.sunshine .payment-box{position:fixed;bottom:0;left:50%;width:100%;height:57px;max-width:640px;background-color:#fff;-webkit-transform:translateX(-50%);transform:translateX(-50%);z-index:99;}
+.cover{position:fixed;top:0;left:50%;display:none;width:100%;height:100%;background-color:rgba(0,0,0,.8);-webkit-transform:translateX(-50%);transform:translateX(-50%);}
+.cover .cost{position:absolute;bottom:57px;left:50%;box-sizing:border-box;padding:16px 4% 0 4%;width:100%;height:52px;max-width:640px;background-color:#fff;-webkit-transform:translateX(-50%);transform:translateX(-50%);z-index:1;}
+.cover .cost span{float:left;margin-right:5%;width:26%;height:33px;border:1px solid #cecece;border-radius:5px;color:#ff802a;text-align:center;font-size:13px;line-height:33px;}
+.cover .cost span:nth-child(3){float:right;margin:0;width:35%;}
+.cover .cost span input{width:46%;text-align:center;}
+.cover .cost span i{color:#888;font-style:normal;}
+.cover .blank{width:100%;height:100%;}
+.sunshine-share .heart{margin:30px auto;width:147px;height:165px;}
+.sunshine-share{position:fixed;top:0;left:50%;width:100%;height:100%;background-color:#f7f3fa;-webkit-transform:translateX(-50%);transform:translateX(-50%);}
+.sunshine-share .tip{margin-top:30px;text-align:center;}
+.sunshine-share .tip p:nth-child(1){color:#67636b;font-size:18px;line-height:26px;}
+.sunshine-share .tip p:nth-child(2){color:#67636b;font-size:15px;line-height:24px;}
+.sunshine-share .share{margin-top:40px;color:#fff;text-align:center;}
+.sunshine-share .text textarea{display:block;box-sizing:border-box;margin:0 auto;padding:10px;width:92%;height:150px;outline:0;border:none;border-radius:10px;font-size:15px;}
+.sunshine .section .love-review h2{position:relative;padding-left:10px;color:#67636a;font-weight:400;font-size:15px;}
+.sunshine .section .love-review h2::after{position:absolute;top:3px;left:0;display:block;width:4px;height:15px;background-color:#ff7f29;content:'';}
+.sunshine .section{padding:12px;}
+.review-list{height:200px;width:100%;overflow:hidden;position:relative;margin-top:10px;}
+.sunshine .section .review-list ul{position:absolute;top:0;left:0;}
+.sunshine .section .review-list ul li{position:relative;padding:15px 0 15px 36px;}
+.sunshine .section .review-list ul li .user-img{position:absolute;top:10px;left:0;width:25px;height:25px;border-radius:20px;background:center center no-repeat;background-size:cover;-webkit-background-size:cover;}
+.sunshine .section .review-list ul li p{overflow:hidden;color:#9f9ca3;font-size:12px;line-height:18px;}
+.sunshine .section .review-list ul li p .left{float:left;}
+.sunshine .section .review-list ul li p .right{float:right;}
+.cover .cost span.cur{border:1px solid #f9853e;position:relative}.cover .cost span.cur:after{display:block;content:'';width:15px;height:9pt;background:url(../img/biao_03.png) 0 0 no-repeat;background-size:100%;position:absolute;bottom:-2px;right:-1px}.sunshine .section .review-list ul li p .left i{font-style:normal;color:#f9853e}
+.sunshineshare .share-right{width: 76px;height: 56px;position: absolute;right: 0;top: 0;background: url(../img/share.png) center center no-repeat;-webkit-background-size: 100%;background-size: 100%;margin-right: 20px;}
+.sunshineshare{padding:60px 0 0 30px;}
+.sunshineshare p{color: #fff;font-size: 16px;line-height: 24px;}

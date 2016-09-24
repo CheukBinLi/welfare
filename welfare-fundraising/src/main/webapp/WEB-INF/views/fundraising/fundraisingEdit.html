@@ -1,0 +1,159 @@
+<#include "/include/header2.html"/>
+<link href="${request.contextPath}/${resource}/plugin/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="${request.contextPath}/${resource}/plugin/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${request.contextPath}/${resource}/plugin/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${request.contextPath}/${resource}/plugin/ckeditor/ckeditor.js"></script>
+<style type="text/css">
+.signin {
+	width: 90%;
+	/* 	height: 479px; */
+	/* background: url(resource/image/base/login_bg.png) no-repeat; */
+	margin: 0 auto;
+	position: absolute;
+	/* top: 60%;
+	left: 510%; */
+	margin-top: 2%;
+	margin-left: 5%;
+}
+</style>
+
+<#if !fundraising??> <#assign fundraising={}/> </#if>
+
+<div class="container signin panel panel-default" style="opacity: 0.8;">
+	<div class="panel-body"></div>
+	<form method="POST" id="f">
+		<input name="id" type="hidden" value="${fundraising.id!}">
+		<div class="input-group form-group has-info has-feedback">
+			<span class="input-group-addon"> 筹款标题:&nbsp&nbsp</span>
+			<input type="text" name="title" class="form-control input-lg" value="${fundraising.title!}" placeholder="筹款标题" required autofocus data-toggle="tooltip" data-placement="top" title="请输入密码" />
+		</div>
+		<div class="input-group form-group has-info">
+			<span class="input-group-addon">分享标题:&nbsp&nbsp</span>
+			<input type="text" name="shareTitle" class="form-control input-lg" value="${fundraising.shareTitle!}" placeholder="分享标题" required data-toggle="tooltip" data-placement="top" title="请输入密码" />
+		</div>
+		<div class="input-group form-group has-info">
+			<span class="input-group-addon">标题背景:&nbsp&nbsp</span>
+			<a href="javascript:#" style="width: 180px; padding-top: 130px; display: block; position: relative; z-index: 10;" class="form-control input-lg"> <input display="shareImg" type="file" name="themeUrl" id="themeUrl" class="form-control input-lg" placeholder="标题背景" required data-toggle="tooltip"
+					data-placement="top" style="position: absolute; top: -10px; left: -10px; z-index: 101; opacity: 0; filter: alpha(opacity = 0); width: 200px; height: 160px;" /> <img id="shareImg" alt="+" src="<#if fundraising.themeUrl??>${request.contextPath}/${fundraising.themeUrl}</#if>"
+				style="width: 140px; height: 140px; position: relative; top: -130px;" class="img-thumbnail">
+			</a>
+		</div>
+
+		<div class="input-group form-group has-info">
+			<span class="input-group-addon">单笔最低额</span>
+			<input type="text" name="mixAmount" class="form-control input-lg" value="${fundraising.mixAmount!}" placeholder="50" required data-toggle="tooltip" data-placement="top" title="请输入密码" />
+			<span class="input-group-addon">单笔最高额</span>
+			<input type="text" name="maxAmount" class="form-control input-lg" value="${fundraising.maxAmount!}" placeholder="3000" required data-toggle="tooltip" data-placement="top" title="请输入密码" />
+			<span class="input-group-addon">默认金额一</span>
+			<input type="text" name="defaultFirstAmount" class="form-control input-lg" value="${fundraising.defaultFirstAmount!}" placeholder="50" required data-toggle="tooltip" data-placement="top" title="请输入密码" />
+			<span class="input-group-addon">默认金额二</span>
+			<input type="text" name="defaultSecondAmount" class="form-control input-lg" value="${fundraising.defaultSecondAmount!}" placeholder="100" required data-toggle="tooltip" data-placement="top" title="请输入密码" />
+		</div>
+		<div class="input-group form-group" style="width: 100%">
+			<div class="input-group date has-info" id="d1" data-date="" data-date-format="yyyy-mm-dd HH:mm:ss" style="float: left; width: 45%">
+				<span class="input-group-addon">开始时间</span>
+				<input class="form-control input-lg" size="16" type="text" name="fromDate" value="${fundraising.fromDate!}" readonly>
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-remove"></span>
+				</span>
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-time"></span>
+				</span>
+			</div>
+			<div class="input-group date" id="d2" data-date="" data-date-format="yyyy-mm-dd HH:mm:ss" style="float: right; width: 45%;">
+				<span class="input-group-addon">截止时间</span>
+				<input class="form-control input-lg" size="16" type="text" name="thruDate" value="${fundraising.thruDate!}" readonly>
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-remove"></span>
+				</span>
+				<span class="input-group-addon">
+					<span class="glyphicon glyphicon-time"></span>
+				</span>
+			</div>
+		</div>
+		<div class="input-group form-group has-info">
+			<span class="input-group-addon">分享内容</span>
+			<!-- <textarea name="shareContent"></textarea> -->
+			<input type="text" name="shareContent" class="form-control input-lg" value="${fundraising.shareContent!}" placeholder="分享内容" required data-toggle="tooltip" data-placement="top" title="请输入密码" />
+		</div>
+		<div class="input-group form-group has-info">
+			<span class="input-group-addon">活动内容</span>
+			<textarea name="content">${fundraising.content!}</textarea>
+		</div>
+		<button class="btn btn-lg btn-info btn-block" type="button" id="submitBtn" type="button" data-loading-text="Loading..." autocomplete="off">保存</button>
+	</form>
+	<div id="alert-user" class="alert alert-danger" role="alert" style="display: none;"></div>
+</div>
+<script type="text/javascript">
+	/* CKEDITOR.replace('shareContent'); */
+	CKEDITOR.replace('content');
+	$('#d1').datetimepicker({
+		language : 'zh-CN',
+		format : 'yyyy-mm-dd HH:mm:ss',
+		weekStart : 1,
+		todayBtn : 1,
+		autoclose : 1,
+		todayHighlight : 1,
+		startView : 2,
+		forceParse : 0,
+		showMeridian : 1
+	});
+	$('#d2').datetimepicker({
+		language : 'zh-CN',
+		format : 'yyyy-mm-dd HH:mm:ss',
+		weekStart : 1,
+		todayBtn : 1,
+		autoclose : 1,
+		todayHighlight : 1,
+		startView : 2,
+		forceParse : 0,
+		showMeridian : 1
+	});
+
+	$("input[type='file']").change(function() {
+		var obj = $(this)[0];
+		//console.log(obj.files);
+		for (var i = 0; i < obj.files.length; i++) {
+			if (!/image\/\w+/.test(obj.files[i].type))
+				return alert("只能选择图片格式文件");
+			//console.log(obj.files[i]);
+		}
+		if (window.FileReader) {
+			var fr = new FileReader();
+			var img = '#' + $(this).attr('display');
+			fr.onloadend = function(e) {
+				$(img).attr('src', e.target.result);
+			};
+			fr.readAsDataURL(obj.files[0]);
+		} else
+			return alert("不支持HTML5");
+	});
+
+	$('#submitBtn').click(function() {
+		for (instance in CKEDITOR.instances) {
+			CKEDITOR.instances[instance].updateElement();
+		}
+		var fd = new FormData($('#f')[0]);
+		console.log(fd);
+		$.ajax({
+			url : '${request.contextPath}/control/fundraising/put',
+			data : fd,
+			type : 'POST',
+			processData : false,
+			contentType : false,
+			dataType : 'json',
+			success : function(responseText) {
+				/* 				console.log(responseText); */
+				if (msgModel.isSuccess(responseText)) {
+					alert("操作成功");
+					window.location.href = "${request.contextPath}/fundraising/fundraisingList";
+				} else
+					alert("操作失败");
+				$("#submitBtn").button('reset');
+			},
+			error : function() {
+			}
+		});
+	});
+</script>
+<#include "/include/footer.html"/>

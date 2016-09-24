@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE QueryList SYSTEM "Query.dtd">
+<QueryList package="com.welfare.core.base.entity.UnifiedOrder">
+	<Alias name="com.welfare.core.base.entity.UnifiedOrder" Alias="UnifiedOrder" />
+	<Join name="defaultWhereList">
+	<![CDATA[ 
+			<#if id??>
+				<#if like??>
+					and A.id like '%'||:id||'%' 
+				<#else>
+					and A.id=:id 
+				</#if>
+			</#if>
+			<#if productDescription??>
+				<#if like??>
+					and A.productDescription like '%'||:productDescription||'%' 
+				<#else>
+					and A.productDescription=:productDescription 
+				</#if>
+			</#if>
+			<#if createDateTime??>
+				<#if like??>
+					and A.createDateTime like '%'||:createDateTime||'%' 
+				<#else>
+					and A.createDateTime=:createDateTime 
+				</#if>
+			</#if>
+			<#if weiXinInfoId??>
+				<#if like??>
+					and A.weiXinInfoId like '%'||:weiXinInfoId||'%' 
+				<#else>
+					and A.weiXinInfoId=:weiXinInfoId 
+				</#if>
+			</#if>
+			<#if payAmount??>
+				<#if like??>
+					and A.payAmount like '%'||:payAmount||'%' 
+				<#else>
+					and A.payAmount=:payAmount 
+				</#if>
+			</#if>
+			<#if status??>
+				<#if like??>
+					and A.status like '%'||:status||'%' 
+				<#else>
+					and A.status=:status 
+				</#if>
+			</#if>
+	]]>
+	</Join>
+	<Query name="list" type="HQL" freemarkFormat="true" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[ 
+			FROM UnifiedOrder A 
+			WHERE 
+			1=1 
+			@WHERE@ 
+			<#if orderby??>
+				order by A.${orderby} 
+				<#if sort??>
+				  ASC
+				  <#else>
+				  	${sort}
+				</#if>
+			</#if>
+		]]>
+	</Query>
+	<Query name="count" type="HQL" freemarkFormat="true" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[ 
+			SELECT COUNT(1) FROM UnifiedOrder A 
+			WHERE 
+			1=1 
+			@WHERE@ 
+		]]>
+	</Query>
+</QueryList>

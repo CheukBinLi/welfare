@@ -1,0 +1,53 @@
+<#include "/include/header2.html"/>
+<style>
+.nav-header.collapsed>span.glyphicon-chevron-toggle:before {
+	content: "\e114";
+}
+
+.nav-header>span.glyphicon-chevron-toggle:before {
+	content: "\e113";
+}
+
+.secondmenu a {
+	font-size: 12px;
+	color: #4A515B;
+	text-align: center;
+}
+
+.secondmenu li.active {
+	background-color: #eee;
+	border-color: #428bca;
+}
+</style>
+<div class="panel panel-default" style="height: 95%; width: 12%; float: left; margin-top: 1%; margin-left: 1%;">
+	<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<div class="panel panel-default">
+			<div class="panel-heading" role="tab" id="h1">
+				<h4 class="panel-title">
+					<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">筹款活动管理</a>
+				</h4>
+			</div>
+			<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="h1">
+				<div class="panel-body">
+					<ul id="systemSetting" class="nav nav-list secondmenu">
+						<li src="${request.contextPath}/control/fundraising/list/fundraisingList"><a><i class="glyphicon glyphicon-user"></i>活动列表</a></li>
+						<li src="${request.contextPath}/control/fundraising/fundraisingEdit"><a><i class="glyphicon glyphicon-user"></i>新增活动</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="panel panel-default" style="width: 85%; float: left; margin-left: 1%; margin-top: 1%; height: 95%; overflow: visible;">
+	<iframe id="zhuce" width="100%" height="100%" frameBorder="0"></iframe>
+</div>
+
+<script type="text/javascript">
+	$('#systemSetting').find('li').click(function() {
+		$('#systemSetting').find('li').removeClass('active');
+		$(this).addClass('active');
+		$("#zhuce").attr("src", $(this).attr('src'));
+	});
+</script>
+
+<#include "/include/footer.html"/>

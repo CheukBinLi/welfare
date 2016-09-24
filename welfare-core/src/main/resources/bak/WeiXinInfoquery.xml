@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE QueryList SYSTEM "Query.dtd">
+<QueryList package="com.welfare.core.base.entity.WeiXinInfo">
+	<Alias name="com.welfare.core.base.entity.WeiXinInfo" Alias="WeiXinInfo" />
+	<Join name="defaultWhereList">
+	<![CDATA[ 
+			<#if parent??>
+				<#if like??>
+					and A.parent like '%'||:parent||'%' 
+				<#else>
+					and A.parent=:parent 
+				</#if>
+			</#if>
+			<#if openId??>
+				<#if like??>
+					and A.openId like '%'||:openId||'%' 
+				<#else>
+					and A.openId=:openId 
+				</#if>
+			</#if>
+			<#if nickName??>
+				<#if like??>
+					and A.nickName like '%'||:nickName||'%' 
+				<#else>
+					and A.nickName=:nickName 
+				</#if>
+			</#if>
+			<#if photoUrl??>
+				<#if like??>
+					and A.photoUrl like '%'||:photoUrl||'%' 
+				<#else>
+					and A.photoUrl=:photoUrl 
+				</#if>
+			</#if>
+			<#if updateDate??>
+				<#if like??>
+					and A.updateDate like '%'||:updateDate||'%' 
+				<#else>
+					and A.updateDate=:updateDate 
+				</#if>
+			</#if>
+	]]>
+	</Join>
+	<Query name="list" type="HQL" freemarkFormat="true" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[ 
+			FROM WeiXinInfo A 
+			WHERE 
+			1=1 
+			@WHERE@ 
+			<#if orderby??>
+				order by A.${orderby} 
+				<#if sort??>
+				  ASC
+				  <#else>
+				  	${sort}
+				</#if>
+			</#if>
+		]]>
+	</Query>
+	<Query name="count" type="HQL" freemarkFormat="true" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[ 
+			SELECT COUNT(1) FROM WeiXinInfo A 
+			WHERE 
+			1=1 
+			@WHERE@ 
+		]]>
+	</Query>
+</QueryList>

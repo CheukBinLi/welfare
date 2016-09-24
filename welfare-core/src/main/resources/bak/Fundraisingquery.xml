@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE QueryList SYSTEM "Query.dtd">
+<QueryList package="com.welfare.core.fundraising.entity.Fundraising">
+	<Alias name="com.welfare.core.fundraising.entity.Fundraising" Alias="Fundraising" />
+	<Join name="defaultWhereList">
+	<![CDATA[ 
+			<#if id??>
+				<#if like??>
+					and A.id like '%'||:id||'%' 
+				<#else>
+					and A.id=:id 
+				</#if>
+			</#if>
+			<#if content??>
+				<#if like??>
+					and A.content like '%'||:content||'%' 
+				<#else>
+					and A.content=:content 
+				</#if>
+			</#if>
+			<#if title??>
+				<#if like??>
+					and A.title like '%'||:title||'%' 
+				<#else>
+					and A.title=:title 
+				</#if>
+			</#if>
+			<#if createUser??>
+				<#if like??>
+					and A.createUser like '%'||:createUser||'%' 
+				<#else>
+					and A.createUser=:createUser 
+				</#if>
+			</#if>
+			<#if themeUrl??>
+				<#if like??>
+					and A.themeUrl like '%'||:themeUrl||'%' 
+				<#else>
+					and A.themeUrl=:themeUrl 
+				</#if>
+			</#if>
+			<#if titleContent??>
+				<#if like??>
+					and A.titleContent like '%'||:titleContent||'%' 
+				<#else>
+					and A.titleContent=:titleContent 
+				</#if>
+			</#if>
+			<#if shareContent??>
+				<#if like??>
+					and A.shareContent like '%'||:shareContent||'%' 
+				<#else>
+					and A.shareContent=:shareContent 
+				</#if>
+			</#if>
+			<#if fromDate??>
+				<#if like??>
+					and A.fromDate like '%'||:fromDate||'%' 
+				<#else>
+					and A.fromDate=:fromDate 
+				</#if>
+			</#if>
+			<#if thruDate??>
+				<#if like??>
+					and A.thruDate like '%'||:thruDate||'%' 
+				<#else>
+					and A.thruDate=:thruDate 
+				</#if>
+			</#if>
+			<#if maxAmount??>
+				<#if like??>
+					and A.maxAmount like '%'||:maxAmount||'%' 
+				<#else>
+					and A.maxAmount=:maxAmount 
+				</#if>
+			</#if>
+			<#if mixAmount??>
+				<#if like??>
+					and A.mixAmount like '%'||:mixAmount||'%' 
+				<#else>
+					and A.mixAmount=:mixAmount 
+				</#if>
+			</#if>
+			<#if defaultFirstAmount??>
+				<#if like??>
+					and A.defaultFirstAmount like '%'||:defaultFirstAmount||'%' 
+				<#else>
+					and A.defaultFirstAmount=:defaultFirstAmount 
+				</#if>
+			</#if>
+			<#if defaultSecondAmount??>
+				<#if like??>
+					and A.defaultSecondAmount like '%'||:defaultSecondAmount||'%' 
+				<#else>
+					and A.defaultSecondAmount=:defaultSecondAmount 
+				</#if>
+			</#if>
+	]]>
+	</Join>
+	<Query name="list" type="HQL" freemarkFormat="true" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[ 
+			FROM Fundraising A 
+			WHERE 
+			1=1 
+			@WHERE@ 
+			<#if orderby??>
+				order by A.${orderby} 
+				<#if sort??>
+				  ASC
+				  <#else>
+				  	${sort}
+				</#if>
+			</#if>
+		]]>
+	</Query>
+
+	<Query name="activFundraisingByPk" type="HQL" freemarkFormat="true" Alias="true">
+		<![CDATA[ 
+			FROM Fundraising A 
+			WHERE 
+			1=1 
+			AND 
+			(A.fromDate<=:fromDate OR A.fromDate IS NULL) 
+			AND 
+			(A.thruDate>=:thruDate OR A.thruDate IS NULL) 
+			AND 
+			A.id=:id 
+		]]>
+	</Query>
+
+	<Query name="count" type="HQL" freemarkFormat="true" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[ 
+			SELECT COUNT(1) FROM Fundraising A 
+			WHERE 
+			1=1 
+			@WHERE@ 
+		]]>
+	</Query>
+</QueryList>

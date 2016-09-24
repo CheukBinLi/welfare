@@ -1,0 +1,69 @@
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+<#if sign??>
+var wxConfig ={
+    debug: false,
+    appId: '${weixinAppId!}',
+    timestamp: ${sign.timestamp!0},
+    nonceStr: '${sign.nonceStr!}',
+    signature: '${sign.signature!}',
+    jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'
+    ]
+};
+wx.config(wxConfig);
+wx.error(function (res) {
+	//alert(res);
+	console.log(res);
+});
+</#if>
+
+wx.ready(function () {
+    if (typeof(weixinShareData) == "undefined") {
+        weixinShareData = {
+            "imgUrl": "http://img0.imgtn.bdimg.com/it/u=3517748610,326130090&fm=15&gp=0.jpg",
+            "link": "http://img0.imgtn.bdimg.com/it/u=3517748610,326130090&fm=15&gp=0.jpg",
+            "desc": "aaaaa",
+            "title": "发现一家好店"
+        };
+    }
+
+    wx.onMenuShareTimeline(weixinShareData);
+    wx.onMenuShareAppMessage(weixinShareData);
+    wx.onMenuShareQQ(weixinShareData);
+    wx.onMenuShareWeibo(weixinShareData);
+});
+</script>

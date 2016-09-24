@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE QueryList SYSTEM "Query.dtd">
+<QueryList package="com.welfare.core.fundraising.entity.FundraisingLog">
+	<Alias name="com.welfare.core.fundraising.entity.FundraisingLog" Alias="@FundraisingLog@" />
+	<Alias name="com.welfare.core.base.entity.WeiXinInfo" Alias="@WeiXinInfo@" />
+	<Alias name="com.welfare.core.fundraising.dto.FundraisingLogStatisticalDto" Alias="@StatisticalDto@" />
+	<Alias name="com.welfare.core.fundraising.dto.FundraisingLogWeixinDto" Alias="@FundraisingLogWeixinDto@" />
+	<Join name="defaultWhereList">
+		<![CDATA[ 
+				<#if id??>
+					<#if like??>
+						and A.id like '%'||:id||'%' 
+					<#else>
+						and A.id=:id 
+					</#if>
+				</#if>
+				<#if fundraisingId??>
+					<#if like??>
+						and A.fundraisingId like '%'||:fundraisingId||'%' 
+					<#else>
+						and A.fundraisingId=:fundraisingId 
+					</#if>
+				</#if>
+				<#if weiXinInfoId??>
+					<#if like??>
+						and A.weiXinInfoId like '%'||:weiXinInfoId||'%' 
+					<#else>
+						and A.weiXinInfoId=:weiXinInfoId 
+					</#if>
+				</#if>
+				<#if payAmount??>
+					<#if like??>
+						and A.payAmount like '%'||:payAmount||'%' 
+					<#else>
+						and A.payAmount=:payAmount 
+					</#if>
+				</#if>
+				<#if unifiedOrderId??>
+					<#if like??>
+						and A.unifiedOrderId like '%'||:unifiedOrderId||'%' 
+					<#else>
+						and A.unifiedOrderId=:unifiedOrderId 
+					</#if>
+				</#if>
+				<#if status??>
+					<#if like??>
+						and A.status like '%'||:status||'%' 
+					<#else>
+						and A.status=:status 
+					</#if>
+				</#if>
+				<#if blessingMessage??>
+					<#if like??>
+						and A.blessingMessage like '%'||:blessingMessage||'%' 
+					<#else>
+						and A.blessingMessage=:blessingMessage 
+					</#if>
+				</#if>
+				<#if completeDate??>
+					<#if like??>
+						and A.completeDate like '%'||:completeDate||'%' 
+					<#else>
+						and A.completeDate=:completeDate 
+					</#if>
+				</#if>
+				<#if orderby??>
+					ORDER BY A.${orderby} 
+					<#if sort??>
+					  	${sort}
+					<#else>
+						 ASC
+					</#if>
+				</#if>
+		]]>
+	</Join>
+	<Query name="list" type="HQL" freemarkFormat="true" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[ 
+			FROM @FundraisingLog@ A 
+			WHERE 
+			1=1 
+			@WHERE@ 
+		]]>
+	</Query>
+	<Query name="count" type="HQL" freemarkFormat="true" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[ 
+			SELECT COUNT(1) FROM @FundraisingLog@ A 
+			WHERE 
+			1=1 
+			@WHERE@ 
+		]]>
+	</Query>
+
+	<Query freemarkFormat="true" name="statistical" type="HQL" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[
+			SELECT new @StatisticalDto@(COUNT(1) ,SUM(A.payAmount)) FROM @FundraisingLog@ A 
+			WHERE 
+			1=1 
+			@WHERE@ 
+		]]>
+	</Query>
+
+	<Query freemarkFormat="true" name="fundraisingLogWeixinDtoList" type="HQL" Alias="true" joinRef="defaultWhereList" joinTag="@WHERE@">
+		<![CDATA[
+			SELECT  new @FundraisingLogWeixinDto@(W.nickName as nickName,W.photoUrl as photoUrl,A.payAmount as payAmount,A.blessingMessage as blessingMessage,A.completeDate as completeDate) FROM @FundraisingLog@ A,@WeiXinInfo@ W 
+			WHERE 
+			A.weiXinInfoId=W.openId 
+			@WHERE@ 
+		]]>
+	</Query>
+
+</QueryList>
