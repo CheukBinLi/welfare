@@ -1,4 +1,4 @@
-package com.welfare.common.api;
+package com.welfare.common.util;
 
 /**
  * Created by donald on 16/8/29.

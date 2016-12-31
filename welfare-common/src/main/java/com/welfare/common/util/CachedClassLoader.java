@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  *******************************************************************************/
-package com.welfare.common.api;
+package com.welfare.common.util;
 
 import java.net.URL;
 import java.net.URLClassLoader;
