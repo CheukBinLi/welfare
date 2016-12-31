@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.cheuks.bin.original.common.dbmanager.dao.BaseDao;
 import com.cheuks.bin.original.common.dbmanager.service.AbstractService;
-import com.common.api.weixin.OrderPayByJs;
+import com.welfare.common.api.weixin.OrderPayByJs;
 import com.welfare.core.base.dao.UnifiedOrderDao;
 import com.welfare.core.base.entity.UnifiedOrder;
 import com.welfare.core.contant.StatusContant;

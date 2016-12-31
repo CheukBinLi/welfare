@@ -15,9 +15,9 @@ import com.cheuks.bin.original.common.cache.redis.RedisFactory;
 import com.cheuks.bin.original.common.cache.redis.RedisLua;
 import com.cheuks.bin.original.common.util.Scan;
 import com.cheuks.bin.original.common.util.SoftConcurrentHashMap;
-import com.common.api.weixin.js.JsSdkSignUtil;
-import com.common.api.weixin.js.JsSdkTicket;
-import com.common.api.weixin.token.AccessTokenUtil;
+import com.welfare.common.api.weixin.js.JsSdkSignUtil;
+import com.welfare.common.api.weixin.js.JsSdkTicket;
+import com.welfare.common.api.weixin.token.AccessTokenUtil;
 
 @Component
 public class ConstantObject {

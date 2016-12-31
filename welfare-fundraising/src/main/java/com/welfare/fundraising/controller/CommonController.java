@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
-import com.common.api.weixin.auth.AuthUtil;
-import com.common.api.weixin.user.UserUtil;
+import com.welfare.common.api.weixin.auth.AuthUtil;
+import com.welfare.common.api.weixin.user.UserUtil;
 import com.welfare.core.base.entity.WeiXinInfo;
 import com.welfare.core.base.service.WeiXinInfoService;
 import com.welfare.core.contant.WebContant;

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.common.api.weixin.common.XMLParser;
+import com.welfare.common.api.weixin.common.XMLParser;
 import com.welfare.core.base.entity.UnifiedOrder;
 import com.welfare.core.base.service.UnifiedOrderService;
 import com.welfare.core.fundraising.entity.Fundraising;
