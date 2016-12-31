@@ -1,4 +1,4 @@
-package com.welfare.common.api.weixin.protocol;
+package com.welfare.common.api.weixin.service;
 
 import java.io.IOException;
 import java.security.KeyManagementException;
@@ -7,7 +7,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 
 import com.welfare.common.api.weixin.common.Configure;
-import com.welfare.common.api.weixin.service.IServiceRequest;
 
 /**
  * User: rizenguo Date: 2014/12/10 Time: 15:44:00 服务的基类
